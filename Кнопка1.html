@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Кнопка</title>
+    <style>
+        .strokaSoZnacheniem {
+            border: 1px solid black;
+            width: 550px;
+            height: 50px;
+
+            font-size: 40px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .row > div {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+
+            font-size: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="strokaSoZnacheniem"></div>
+<div class="numpad">
+    <div class="row">
+        <div data-val123="7">7</div>
+        <div data-val123="8">8</div>
+        <div data-val123="9">9</div>
+        <div data-val123="*">*</div>
+        <div data-val123="C">C</div>
+    </div>
+    <div class="row">
+        <div data-val123="4">4</div>
+        <div data-val123="5">5</div>
+        <div data-val123="6">6</div>
+        <div data-val123="/">/</div>
+        <div data-val123="=">=</div>
+    </div>
+    <div class="row">
+        <div data-val123="1">1</div>
+        <div data-val123="2">2</div>
+        <div data-val123="3">3</div>
+        <div data-val123="+">+</div>
+        <div data-val123="-">-</div>
+    </div>
+</div>
+</body>
+
+<script>
+    function printData(string, shouldIClear) {
+        if (shouldIClear) {
+            document.querySelector(".strokaSoZnacheniem").textContent = "";
+        }
+
+        document.querySelector(".strokaSoZnacheniem").textContent += string;
+    }
+
+    let firstOperand = '';
+    let operator;
+    let secondOperand = '';
+
+    document.querySelector(".numpad").onclick = function (event) {
+        if (event.target.dataset.val123) {
+            switch (event.target.dataset.val123) {
+                case '+':
+                    operator = '+';
+                    printData('+', true);
+                    break;
+                case '-':
+                    operator = '-';
+                    printData('-', true);
+                    break;
+                case '*':
+                    operator = '*';
+                    printData('*', true);
+                    break;
+                case '/':
+                    operator = '/';
+                    printData('/', true);
+                    break;
+                case 'C':
+                    printData('', true);
+                    firstOperand = '';
+                    operator = '';
+                    secondOperand = '';
+                    break;
+                case "=":
+                    printData(compulation(Number(firstOperand), operator, Number(secondOperand)));
+                    break;
+                default:
+                    if (firstOperand && operator) {
+                        // Kогика плюса
+                        secondOperand += event.target.dataset.val123;
+
+                        // Plain number
+                        printData(event.target.dataset.val123);
+                    } else {
+                        firstOperand += event.target.dataset.val123;
+                        // Plain number
+                        printData(event.target.dataset.val123);
+                    }
+                    // мой код
+                function compulation(firstOperand, operator, secondOperand) {
+                    if (operator === "+") {
+                        printData(Number(firstOperand) + Number(secondOperand), true);
+                        return;
+                    }
+                    if (operator === "-") {
+                        printData(Number(firstOperand) - Number(secondOperand), true);
+                        return;
+                    }
+                    if (operator === "*") {
+                        printData(Number(firstOperand) * Number(secondOperand), true);
+                        return;
+                    }
+                    if (operator === "/") {
+                        printData(Number(firstOperand) / Number(secondOperand), true);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+
+</script>
+</html>
